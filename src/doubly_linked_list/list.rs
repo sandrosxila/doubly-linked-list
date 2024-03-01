@@ -35,7 +35,10 @@ impl<T> List<T> {
         }
     }
     pub fn push(&mut self, elem: T) {
-        self.head = Some(Box::new(Node { elem: elem, next: self.head.take() }));
+        self.head = Some(Box::new(Node {
+            elem: elem,
+            next: self.head.take(),
+        }));
         self.size += 1;
     }
 
@@ -60,10 +63,8 @@ impl<T> List<T> {
 
     pub fn get_top(&self) -> Option<&T> {
         match self.head.as_ref() {
-            Some(node) => {
-                Some(&node.elem)
-            }
-            None => None
+            Some(node) => Some(&node.elem),
+            None => None,
         }
     }
 
@@ -71,13 +72,13 @@ impl<T> List<T> {
 
     pub fn iter(&self) -> Iter<T> {
         Iter {
-            next: self.head.as_ref().map(|node: &Box<Node<T>>| { &**node }),
+            next: self.head.as_ref().map(|node: &Box<Node<T>>| &**node),
         }
     }
 
     pub fn iter_mut(&mut self) -> IterMut<T> {
         IterMut {
-            next: self.head.as_mut().map(|node| { &mut **node }),
+            next: self.head.as_mut().map(|node| &mut **node),
         }
     }
 }
@@ -99,7 +100,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
 
     fn next(&mut self) -> Option<Self::Item> {
         self.next.map(|node| {
-            self.next = node.next.as_ref().map(|next_node| { &**next_node });
+            self.next = node.next.as_ref().map(|next_node| &**next_node);
             &node.elem
         })
     }
@@ -110,7 +111,7 @@ impl<'a, T> Iterator for IterMut<'a, T> {
 
     fn next(&mut self) -> Option<Self::Item> {
         self.next.take().map(|node| {
-            self.next = node.next.as_mut().map(|next_node| { &mut **next_node });
+            self.next = node.next.as_mut().map(|next_node| &mut **next_node);
             &mut node.elem
         })
     }
@@ -128,10 +129,13 @@ impl<T> Drop for List<T> {
 #[test]
 fn create_new() {
     let list: List<i32> = List::new();
-    assert_eq!(list, List {
-        head: None,
-        size: 0,
-    } as List<i32>);
+    assert_eq!(
+        list,
+        List {
+            head: None,
+            size: 0,
+        } as List<i32>
+    );
 }
 
 #[test]
@@ -184,4 +188,3 @@ fn list_iter_mut() {
     //Iterator has no influence to the list
     assert_eq!(list.get_top(), Some(&11));
 }
-

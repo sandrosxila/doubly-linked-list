@@ -2,13 +2,13 @@
 #![allow(unused_mut)]
 #![allow(dead_code)]
 
-use std::{cmp, mem};
 use std::fmt::Debug;
+use std::{cmp, mem};
 
 mod list;
 
-use list::List;
 use crate::doubly_linked_list::list::Drop as list_drop;
+use list::List;
 
 // Doubly Linked List
 #[derive(Debug, PartialEq, PartialOrd)]
@@ -65,13 +65,17 @@ impl<T> DoublyLinkedList<T> {
 
     pub fn next(&mut self) {
         if (self.right.get_size() != 0) {
-            self.right.pop().map(|node| { self.left.push(node); });
+            self.right.pop().map(|node| {
+                self.left.push(node);
+            });
         }
     }
 
     pub fn previous(&mut self) {
         if (self.left.get_size() != 0) {
-            self.left.pop().map(|node| { self.right.push(node); });
+            self.left.pop().map(|node| {
+                self.right.push(node);
+            });
         }
     }
 
@@ -137,7 +141,8 @@ impl<T> DoublyLinkedList<T> {
     }
 
     pub fn sort(&mut self)
-        where T: std::cmp::PartialEq + std::cmp::PartialOrd
+    where
+        T: std::cmp::PartialEq + std::cmp::PartialOrd,
     {
         if (self.empty()) {
             return;
@@ -156,7 +161,10 @@ impl<T> DoublyLinkedList<T> {
                         let mut left_element = self.left.pop();
                         let mut right_element = self.right.pop();
                         let mut half_segment_length = (exp >> 1);
-                        while (right_element != None && left_element >= right_element && half_segment_length > 0) {
+                        while (right_element != None
+                            && left_element >= right_element
+                            && half_segment_length > 0)
+                        {
                             match left_element.take() {
                                 Some(value) => {
                                     buffer.push(value);
@@ -169,12 +177,17 @@ impl<T> DoublyLinkedList<T> {
                             half_segment_length -= 1;
                         }
                         if (left_element != None) {
-                            left_element.take().map(|value| { self.left.push(value); });
+                            left_element.take().map(|value| {
+                                self.left.push(value);
+                            });
                         }
                         let mut buffer_element = buffer.pop();
                         half_segment_length = (exp >> 1);
                         while (buffer_element != None) {
-                            if (half_segment_length > 0 && right_element != None && right_element < buffer_element) {
+                            if (half_segment_length > 0
+                                && right_element != None
+                                && right_element < buffer_element)
+                            {
                                 match right_element.take() {
                                     Some(value) => {
                                         self.left.push(value);
@@ -198,7 +211,9 @@ impl<T> DoublyLinkedList<T> {
                             }
                         }
                         if (right_element != None) {
-                            right_element.take().map(|value| { self.right.push(value); });
+                            right_element.take().map(|value| {
+                                self.right.push(value);
+                            });
                         }
                     }
                 }
@@ -210,7 +225,8 @@ impl<T> DoublyLinkedList<T> {
         mem::swap(&mut self.left, &mut self.right);
     }
     pub fn print_line(&mut self)
-        where T: std::fmt::Debug
+    where
+        T: std::fmt::Debug,
     {
         self.check_empty();
         let sz = self.size();
@@ -221,7 +237,8 @@ impl<T> DoublyLinkedList<T> {
     }
 
     pub fn print_fmt(&mut self, separator: char)
-        where T: std::fmt::Debug
+    where
+        T: std::fmt::Debug,
     {
         self.check_empty();
         let sz = self.size();

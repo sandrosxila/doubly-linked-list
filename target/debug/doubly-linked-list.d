@@ -1,1 +1,0 @@
-/home/sandro/Desktop/projects/doubly-linked-list/target/debug/doubly-linked-list: /home/sandro/Desktop/projects/doubly-linked-list/src/doubly_linked_list/list.rs /home/sandro/Desktop/projects/doubly-linked-list/src/doubly_linked_list.rs /home/sandro/Desktop/projects/doubly-linked-list/src/main.rs

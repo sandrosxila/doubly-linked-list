@@ -2,8 +2,8 @@ use std::fmt::Debug;
 
 mod doubly_linked_list;
 
-use doubly_linked_list::DoublyLinkedList;
 use crate::doubly_linked_list::Drop;
+use doubly_linked_list::DoublyLinkedList;
 
 #[derive(Debug, PartialEq, PartialOrd)]
 pub struct Person {
@@ -29,13 +29,16 @@ fn main() {
         age: 18,
         height: 2.0,
     });
-    dl.push(Person {
-        name: String::from("Emily"),
-        age: 12,
-        height: 1.25,
-    }, 3);
+    dl.push(
+        Person {
+            name: String::from("Emily"),
+            age: 12,
+            height: 1.25,
+        },
+        3,
+    );
     //test 1
-    println!("The first element: {:?}",dl.get(0));
+    println!("The first element: {:?}", dl.get(0));
     //test 2
     println!("Initial order:");
     dl.print_line();
@@ -57,7 +60,5 @@ fn main() {
     dl.print_fmt('\n');
     //test 7
     dl.drop();
-    println!("{}",dl.size());
+    println!("{}", dl.size());
 }
-
-
